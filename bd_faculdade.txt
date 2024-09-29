@@ -1,0 +1,126 @@
+
+a. Quais informações precisam ser armazenadas?
+
+Dados dos alunos 
+Informações sobre os cursos 
+Detalhes das matérias 
+Informações dos professores 
+
+b. Quais os dados precisam ser guardados?
+
+Alunos: Nome, matrícula, curso em que estão matriculados.
+Cursos: Nome do curso, nível, duração.
+Matérias: Nome da matéria, carga horária, professor responsável.
+Professores: Nome do professor, matérias ministradas.
+
+
+c. O que será feito com os dados posteriormente?
+
+Verificar notas, controle de professores, montar turmas com matérias especificas 
+
+
+
+● Quais tabelas precisam ser criadas para que todas as informações sejam
+armazenadas?
+
+alunos, cursos, matérias, professor
+
+● Quais atributos cada tabela deve ter?
+
+id_aluno (identificador único do aluno).
+nome (nome completo do aluno).
+matricula (número de matrícula do aluno).
+curso_fk (chave estrangeira referenciando o curso em que o aluno está matriculado).
+
+Tabela Cursos:
+id_curso (identificador único do curso).
+nome (nome do curso).
+nivel (graduação, pós-graduação, etc.).
+duracao (duração do curso em anos ou semestres).
+
+Tabela Matérias:
+id_materia (identificador único da matéria).
+nome (nome da matéria).
+carga_horaria (quantidade de horas de aula).
+curso_fk (chave estrangeira referenciando o curso a que a matéria pertence).
+professor_fk (chave estrangeira referenciando o professor que ministra a matéria).
+
+Tabela Professores:
+id_professor (identificador único do professor).
+nome (nome completo do professor).
+especialidade(especialidade da matéria)
+
+
+● Qual o tipo de dados de cada atributo definido?
+
+id_aluno, id_curso, id_materia, id_professor: Inteiro (INT) – identificadores únicos.
+
+nome e especialidae: Texto (VARCHAR) – para armazenar nomes de alunos, especialidade, professores, cursos e matérias.
+
+matricula: Texto ou Número (VARCHAR ou INT) – identificador único de cada aluno.
+curso_fk, professor_fk: Inteiro (INT) – referência à chave primária de outra tabela.
+nivel: Texto (VARCHAR) – nível do curso (graduação, pós-graduação).
+duracao: Número (INT) – duração do curso em semestres ou anos.
+carga_horaria: Número (INT) – horas totais de cada matéria.
+
+
+
+● Quais são os relacionamentos a serem criados entre as tabelas?
+
+Aluno → Curso: (N:1) Muitos alunos podem estar matriculados em um único curso, e cada aluno pertence a um curso.
+
+Matéria → Curso: (N:1) Muitas matérias pertencem a um único curso.
+
+Matéria → Professor: (N:1) Muitas matérias são ministradas por um único professor.
+
+
+
+
+
+
+-- Criação da tabela Cursos
+CREATE TABLE Cursos (
+    id_curso INT AUTO_INCREMENT PRIMARY KEY,   
+    nome VARCHAR(100) NOT NULL,               
+    nivel VARCHAR(50) NOT NULL,                
+    duracao INT NOT NULL                       
+);
+
+-- Criação da tabela Professores
+CREATE TABLE Professores (
+    id_professor INT AUTO_INCREMENT PRIMARY KEY,  
+    nome VARCHAR(100) NOT NULL,
+    especialidade VARCHAR(100) NOT NULL          
+);
+
+-- Criação da tabela Matérias
+CREATE TABLE Materias (
+    id_materia INT AUTO_INCREMENT PRIMARY KEY,  
+    nome VARCHAR(100) NOT NULL,                 
+    carga_horaria INT NOT NULL,                 
+    curso_fk INT,                               
+    professor_fk INT,                           
+    FOREIGN KEY (curso_fk) REFERENCES Cursos(id_curso),    
+    FOREIGN KEY (professor_fk) REFERENCES Professores(id_professor)  
+);
+
+-- Criação da tabela Alunos
+CREATE TABLE Alunos (
+    id_aluno INT AUTO_INCREMENT PRIMARY KEY,    
+    nome VARCHAR(100) NOT NULL,                 
+    matricula VARCHAR(20) NOT NULL UNIQUE,      
+    curso_fk INT,                               
+    FOREIGN KEY (curso_fk) REFERENCES Cursos(id_curso)    s
+);
+
+
+
+
+
+
+
+
+
+
+
+
